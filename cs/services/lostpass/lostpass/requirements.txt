@@ -1,0 +1,4 @@
+django == 3.2.3
+django-cors-headers
+pyjwt
+docutils

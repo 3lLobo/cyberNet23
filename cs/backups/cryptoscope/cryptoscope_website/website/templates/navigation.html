@@ -1,0 +1,36 @@
+{% set username = handler.get_authenticated_user() %}
+<nav class="navbar navbar-dark bg-secondary container-fluid">
+    <div class="row w-100 flex-nowrap mx-0">
+        <div class="col">
+            <a class="navbar-brand" href="/">CRYPTOSCOPE</a>
+        </div>
+        <div class="col-6">
+            <form class="d-flex mx-auto" method="GET" action="/search">
+                {% if "query" in globals() %} 
+                    <input class="form-control form-control-sm me-2 text-left" 
+                        name="query" 
+                        type="search" 
+                        placeholder="Search transactions (CryptoQL supported)" 
+                        value="{{ query }}"
+                        autofocus="autofocus"/>
+                {% else %}
+                    <input class="form-control form-control-sm me-2 text-left" 
+                        name="query" 
+                        type="search" 
+                        placeholder="Search transactions (CryptoQL supported)"/> 
+                {% end %}
+                <button class="btn btn-sm btn-outline-light" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="col text-end text-nowrap">
+            {% if username is not None %}
+                <a href="/account" class="btn btn-sm btn-outline-light px-3 ms-2">Logged in as: {{ username }}</a>
+                <form method="POST" action="/logout" class="d-inline-block">
+                    <button class="btn btn-sm btn-outline-light ms-1 px-4">Logout</button> 
+                </form>
+            {% else %}
+                <a href="/login" class="btn btn-sm btn-outline-light px-3">Login</a>
+            {% end %}
+        </div>
+    </div>
+</nav>

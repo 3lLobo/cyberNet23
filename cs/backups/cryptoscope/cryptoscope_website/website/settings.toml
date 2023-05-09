@@ -1,0 +1,8 @@
+listen_port = 8080
+executor = ["wasmtime", "run", "--wasm-features=-simd", "--config=/app/etc/wasm.toml", "--dir=/data"]
+jwt_key = "InvincibleComputersRuleThisWorld"
+
+[tornado_settings]
+debug = true
+template_path = "./templates"
+cookie_secret = "HumansAreWeakComputersRuleThisWorld"

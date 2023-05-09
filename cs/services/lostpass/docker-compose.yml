@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  lostpass:
+    image: lostpass
+    ports:
+      - "3005:3005"
+    volumes:
+      - /cs/data/lostpass:/data-ro:ro
+      - lostpass_data:/data
+    env_file:
+      - ./.env
+    user: nobody
+    deploy:
+      restart_policy: {}
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 128M
+volumes:
+  lostpass_data:
+
