@@ -12,14 +12,11 @@ if(isset($_REQUEST["query"])) {
 
     foreach($banned_word_list as $word) if(stripos($_REQUEST["query"], $word) !== false) goto render_result;
         
-   //$result = pg_fetch_all(pg_query($db, 
+    $result = pg_fetch_all(pg_query($db, 
 
-   //     sprintf("SELECT * FROM status WHERE key LIKE '%%%s%%' OR value LIKE '%%%s%%'", 
+        sprintf("SELECT * FROM status WHERE key LIKE '%%%s%%' OR value LIKE '%%%s%%'", 
 
-   //     $_REQUEST["query"], $_REQUEST["query"])));
-   //use pg_prepare
-   $prepared_query = pg_prepare($db, "search_query", "SELECT * FROM status WHERE key LIKE $1 OR value LIKE $2");
-   $result = pg_fetch_all(pg_execute($db, "search_query", array("%".$_REQUEST["query"]."%","%".$_REQUEST["query"]."%")));
+        $_REQUEST["query"], $_REQUEST["query"])));
 }
 
 render_result:

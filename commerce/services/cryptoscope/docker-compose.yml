@@ -2,12 +2,12 @@ version: "3.7"
 
 services:
   website:
-    image: 3llobo/cryptowebsite:latest
+    image: cryptoscope_website
     user: nobody
     ports:
       - "8080:8080"
     volumes:
-      - /../../data/cryptoscope:/data:ro
+      - /cs/data/cryptoscope:/data:ro
     deploy:
       restart_policy: {}
       resources:

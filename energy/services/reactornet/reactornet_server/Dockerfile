@@ -1,5 +1,5 @@
 FROM php:8-apache
-RUN apt-get update && apt-get install --no-install-recommends -y openssh-server sudo libpq-dev cron
+RUN apt-get update && apt-get install --no-install-recommends -y openssh-server sudo libpq-dev cron tcpdump
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && docker-php-ext-install pgsql pdo_pgsql
 RUN sed -i -e  's/Listen 80/Listen 127.0.0.1:80/' /etc/apache2/ports.conf
 RUN useradd -r -d /data/home/remote -s /bin/bash -u 5082 remote && \

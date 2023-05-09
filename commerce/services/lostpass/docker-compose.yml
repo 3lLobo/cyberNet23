@@ -7,7 +7,7 @@ services:
       - "3005:3005"
     volumes:
       - /cs/data/lostpass:/data-ro:ro
-      - lostpass_data:/data
+        #- lostpass_data:/data
     env_file:
       - ./.env
     user: nobody

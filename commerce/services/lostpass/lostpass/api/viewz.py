@@ -53,7 +53,7 @@ class Login(View):
         encoded_jwt = jwt.encode({'username': credentials['username'],
                                   'iat': timezone.now(),
                                   'exp': timezone.now() + datetime.timedelta(hours=48)},
-                                 settings.SECRET_KEY,
+                                 settings.SECRET_KEYz,
                                  algorithm='HS256')
 
         return HttpResponse(encoded_jwt)
@@ -89,7 +89,7 @@ class Register(View):
         encoded_jwt = jwt.encode({'username': credentials['username'],
                                   'iat': timezone.now(),
                                   'exp': timezone.now() + datetime.timedelta(hours=48)},
-                                 settings.SECRET_KEY,
+                                 settings.SECRET_KEYz,
                                  algorithm='HS256')
 
         return HttpResponse(encoded_jwt)
@@ -101,7 +101,7 @@ class Leave(View):
         token = request.headers.get('Authorization')
 
         try:
-            unpacked_token = jwt.decode(token, settings.SECRET_KEY, algorithms='HS256')
+            unpacked_token = jwt.decode(token, settings.SECRET_KEYz, algorithms='HS256')
             assert unpacked_token['username'] == username
         except (jwt.exceptions.DecodeError, AssertionError):
             return HttpResponseUnauthorized("Invalid token")
@@ -123,7 +123,7 @@ class Passwords(View):
         token = request.headers.get('Authorization')
 
         try:
-            unpacked_token = jwt.decode(token, settings.SECRET_KEY, algorithms='HS256')
+            unpacked_token = jwt.decode(token, settings.SECRET_KEYz, algorithms='HS256')
             assert unpacked_token['username'] == username
         except (jwt.exceptions.DecodeError, AssertionError):
             return HttpResponseUnauthorized("Invalid token")
@@ -152,7 +152,7 @@ class Passwords(View):
 
         logging.info(f"A")
         try:
-            unpacked_token = jwt.decode(token, settings.SECRET_KEY, algorithms='HS256')
+            unpacked_token = jwt.decode(token, settings.SECRET_KEYz, algorithms='HS256')
         except (jwt.exceptions.DecodeError, AssertionError):
             return  HttpResponseUnauthorized("Invalid token")
 
@@ -193,7 +193,7 @@ class Passwords(View):
             return HttpResponseBadRequest(f"Could not decode request with encoding: {encoding}. Use UTF-8 or pass a desired encoding along with the request headers.")
 
         try:
-            unpacked_token = jwt.decode(token, settings.SECRET_KEY, algorithms='HS256')
+            unpacked_token = jwt.decode(token, settings.SECRET_KEYz, algorithms='HS256')
             assert unpacked_token['username'] == username
         except (jwt.exceptions.DecodeError, AssertionError):
             return  HttpResponseUnauthorized("Invalid token")
