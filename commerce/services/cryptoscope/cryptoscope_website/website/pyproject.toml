@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "website"
+version = "0.1.0"
+description = ""
+authors = ["3lLobo <flocwolf@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+tornado = "^6.0.3"
+toml = "^0.10.0"
+jwcrypto = "^1.4.2"
+python-jwt = "^3.3.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,8 @@
+#!/bin/bash
+BASE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+if [ $# -eq 0 ]; then
+    echo "Usage: ./flowcontrol <hostname>";
+    exit 1
+fi
+/usr/bin/socat stdin TCP4:$HOSTNAME:2223
+

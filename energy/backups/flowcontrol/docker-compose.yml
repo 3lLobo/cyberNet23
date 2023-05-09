@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  server:
+    image: flowcontrol_server
+    ports:
+      - "2223:23"
+    volumes:
+      - /cs/data/flowcontrol:/data:ro
+    deploy:
+      restart_policy: {}
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 256M

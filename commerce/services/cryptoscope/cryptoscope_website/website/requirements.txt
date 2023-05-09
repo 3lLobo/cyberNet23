@@ -1,0 +1,9 @@
+cffi==1.15.1
+cryptography==40.0.2
+Deprecated==1.2.13
+jwcrypto==1.4.2
+pycparser==2.21
+python-jwt==3.3.5
+toml==0.10.2
+tornado==6.3.1
+wrapt==1.15.0

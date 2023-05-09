@@ -1,0 +1,8 @@
+#!/bin/bash
+BASE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+if [ $# -eq 0 ]; then
+    echo "Usage: ./reactornet <hostname>";
+    exit 1
+fi
+chmod 600 ${BASE_DIR}/id_reactornet_remote
+ssh -i ${BASE_DIR}/id_reactornet_remote -p 2222 "remote@$1"

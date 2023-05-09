@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+  server:
+    image: reactornet_server
+    ports:
+      - "2222:22"
+    volumes:
+      - /cs/data/reactornet/server:/data:ro
+    deploy:
+      restart_policy: {}
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 256M
+
+  postgres:
+   image: postgres:9
+   user: postgres
+   ports:
+      - "5432:5432"
+   volumes:
+      - /cs/data/reactornet/database/database.sql:/docker-entrypoint-initdb.d/database.sql:ro
+   environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-root
+      - POSTGRES_DB=reactornet
+   secrets:
+      - postgres-root
+   deploy:
+      restart_policy: {}
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 512M
+   healthcheck:
+      test: ["CMD", "pg_isready"]
+      timeout: 5s
+      retries: 10
+      start_period: 300s
+      interval: 5s
+
+secrets:
+  postgres-root:
+   file: ./postgres-root
