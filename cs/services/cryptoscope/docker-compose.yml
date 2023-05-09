@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  website:
+    image: cryptoscope_website
+    user: nobody
+    ports:
+      - "8080:8080"
+    volumes:
+      - /cs/data/cryptoscope:/data:ro
+    deploy:
+      restart_policy: {}
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 128M
