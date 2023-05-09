@@ -52,7 +52,7 @@ class Common {
     public static function safePath($filename) {
 
         if(!strlen($filename)) return false;
-
+        
         return str_replace("..", ".", $filename);
     }
 
@@ -105,7 +105,7 @@ class RequestProfiler {
 
         $load_output = [];
 
-        if(!exec($this->load_command, $load_output)) return false;
+        if(!exec("/usr/bin/uptime", $load_output)) return false;
 
         $load_output = implode($load_output);
 

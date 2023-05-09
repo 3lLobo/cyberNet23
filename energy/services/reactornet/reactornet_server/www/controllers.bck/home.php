@@ -1,0 +1,5 @@
+<?php
+
+Common::renderView("home");
+
+?>

@@ -1,5 +1,5 @@
 <?php
-$cfg_debug_password = "FluffyUnicornNuclearRainbow";
+$cfg_debug_password = "FluffyUnicornNuclearRainbow7766";
 $cfg_min_search_length = 5;
 $cfg_download_dir = "/var/www/html/files";
 $cfg_view_dir = "/var/www/html/views";

@@ -17,8 +17,8 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = os.environ.get("SECRET_KEY", default='qkq@%gm9bNvNHw&6w29gENAYb5tN7py!VDpM^TcjV6pJ54VTvQHee2PShAJMKBfq6')
-DEBUG = int(os.environ.get("DEBUG", default=1))
+SECRET_KEYz = 'BfV6pJ54VTvQHee2P9gENAYb5tNq6qkTcj^hAJMKvNHw&6w27py!VDpMSq@%gm9bN'
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", default="localhost coder10").split(" ")

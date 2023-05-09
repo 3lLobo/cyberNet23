@@ -106,7 +106,20 @@ class DetailsPage(BasePage):
 
         success, data = await self.invoke(["sandbox/transaction", f"filter-symbol:{symbol} convert-to-json"])
         if not success: return self.write({"status": "failure"})  # noqa
-        return self.write(json.loads(data))
+
+        username = self.get_authenticated_user()
+        data = json.loads(data)
+        cleandata = []
+        for entry in data['transactions']:
+            if entry['src'] != username and entry['dst'] != username:
+                entry['src_wallet'] = "[MASKED]"
+            #if entry['dst'] != username:
+                entry['dst_wallet'] = "[MASKED]"
+            cleandata.append(entry)
+
+        cleandata = {"transactions": cleandata}
+
+        return self.write(cleandata)
 
 
 # route rendering the search operation result page
@@ -116,9 +129,21 @@ class SearchPage(BasePage):
 
         # mask wallet information (except for own transactions)
         username = self.get_authenticated_user() or ""
+        #username = self.get_authenticated_user()
+
         success, data = await self.invoke(["sandbox/transaction", f"{query} mask-wallet-except:{username} convert-to-json"])
-        if not success: raise tornado.web.HTTPError(500, data)  # noqa
-        return self.render("search.html", data=json.loads(data), query=query)
+        data = json.loads(data)
+        cleandata = []
+        for entry in data['transactions']:
+            if entry['src'] != username and entry['dst'] != username:
+            #if entry['src'] != username:
+                entry['src_wallet'] = "[MASKED]"
+            #if entry['dst'] != username:
+                entry['dst_wallet'] = "[MASKED]"
+            cleandata.append(entry)
+        cleandata = {"transactions": cleandata}
+        if not success: raise tornado.web.HTTPError(500, cleandata)  # noqa
+        return self.render("search.html", data=cleandata, query=query)
 
 
 # route rendering/processing the authentication process
@@ -177,7 +202,8 @@ class AccountPage(BasePage):
 
     # retrieve transaction details for authenticated user
     async def post(self):
-        username = self.get_body_argument("username", None)
+        username = self.get_authenticated_user()
+        # username = self.get_body_argument("username", None)
         if username is None:
             return self.redirect("/login")
 
