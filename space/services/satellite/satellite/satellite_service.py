@@ -13,7 +13,7 @@ import threading
 import traceback
 from datetime import datetime
 from time import sleep
-
+import re
 import paramiko
 
 logging.basicConfig(level=logging.INFO,
@@ -47,7 +47,11 @@ class GetSatelliteImage(Command):
 
 class Satellites(Command):
     def __init__(self, argument):
-        self.query = argument
+        match = re.search("^[a-zA-Z0-9-_+.]*$", argument)
+        if match:
+            self.query = match.group()
+        else:
+            self.query = "*"
 
     def process(self, server, channel):
         result = subprocess.check_output(f"ls -d {self.query} | grep -v user.json; exit 0", shell=True, stderr=subprocess.STDOUT)

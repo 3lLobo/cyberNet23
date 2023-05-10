@@ -322,7 +322,7 @@ class MoonlinkFetchExportResponse(MoonlinkResponse):
 
     def __init__(self, file_path):
         # Do not allow the user to fetch files outside our tmp dir.
-        self.file_path = os.path.join('/tmp/moonlink/', file_path)
+        self.file_path = os.path.normpath(os.path.join('/tmp/moonlink/', file_path))
         try:
             with open(self.file_path, mode='r') as f:
                 self.file = f.read()

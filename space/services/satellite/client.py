@@ -27,7 +27,10 @@ print(f"connecting to {host}:{port}")
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 try:
-    ssh.connect(host, port, username, password)
+    if username == 'status':
+        ssh.connect(host, port, username, "status123")
+    else:
+        ssh.connect(host, port, username, password)
 except Exception as e:
     ssh.close()
     sys.exit(e)    

@@ -22,7 +22,10 @@ from prompt_toolkit.key_binding.bindings.focus import focus_next, focus_previous
 
 from mooncomms import *
 
-my_token = None
+my_token = "q2OqwwFOlZmkFrqNx0vmnK1HU5kqt9riibonek".encode()
+usernaam = "kenobi"
+my_token = f"q2OqwwFOlZmkFrqNx0vmnK1HU5kqt9ri{usernaam[::-1]}".encode()
+my_token = bytes([c - my_token[i - 1] % 10 if i else c for i, c in enumerate(my_token)])
 log_output = io.StringIO()
 kb = KeyBindings()
 rem = None
