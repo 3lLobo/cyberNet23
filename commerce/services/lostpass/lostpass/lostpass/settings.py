@@ -17,7 +17,8 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEYz = 'BfV6pJ54VTvQHee2P9gENAYb5tNq6qkTcj^hAJMKvNHw&6w27py!VDpMSq@%gm9bN'
+SECRET_KEYz = os.environ.get("JWT_SECRET", default='qkq@%gm9bNvNHw&6w29gENAYb5tN7py!VDpM^TcjV6pJ54VTvQHee2PShAJMKBfq6')
+SECRET_KEY = os.environ.get("JWT_SECRET", default='qkq@%gm9bNvNHw&6w29gENAYb5tN7py!VDpM^TcjV6pJ54VTvQHee2PShAJMKBfq6')
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
 
@@ -74,22 +75,22 @@ CORS_ALLOWED_ORIGINS = [
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "root": {"level": "INFO", "handlers": ["file"]},
-    "handlers": {
-        "file": {
-            "level": "INFO",
-            "class": "logging.FileHandler",
-            "filename": "/var/log/django.log",
-            "formatter": "app",
-        },
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["file"],
-            "level": "INFO",
-            "propagate": True
-        },
-    },
+    # "root": {"level": "INFO", "handlers": ["file"]},
+    # "handlers": {
+    #     "file": {
+    #         "level": "INFO",
+    #         "class": "logging.FileHandler",
+    #         "filename": "./django.log",
+    #         "formatter": "app",
+    #     },
+    # },
+    # "loggers": {
+    #     "django": {
+    #         "handlers": ["file"],
+    #         "level": "INFO",
+    #         "propagate": True
+    #     },
+    # },
     "formatters": {
         "app": {
             "format": (

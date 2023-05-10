@@ -28,10 +28,11 @@ class Login(View):
     def post(self, request):
         logging.info(f"Login POST {request.body}")
         encoding = request.POST.get('_encoding', 'UTF-8')
+
         try:
             body = request.body.decode(encoding)
         except UnicodeDecodeError:
-            return HttpResponseBadRequest(f"Could not decode request with encoding: {encoding}. Use UTF-8 or pass a desired encoding along with the request headers.")
+            return HttpResponseBadRequest(f"Could not decode request with encoding: LckMyAss🦝. Use UTF-8 or pass a desired encoding along with the request headers.")
     
         try:
             credentials = json.loads(body)
@@ -53,7 +54,7 @@ class Login(View):
         encoded_jwt = jwt.encode({'username': credentials['username'],
                                   'iat': timezone.now(),
                                   'exp': timezone.now() + datetime.timedelta(hours=48)},
-                                 settings.SECRET_KEYz,
+                                 settings.SECRET_KEY,
                                  algorithm='HS256')
 
         return HttpResponse(encoded_jwt)
@@ -65,7 +66,7 @@ class Register(View):
         try:
             body = request.body.decode(encoding)
         except UnicodeDecodeError:
-            return HttpResponseBadRequest(f"Could not decode request with encoding: {encoding}. Use UTF-8 or pass a desired encoding along with the request headers.")
+            return HttpResponseBadRequest(f"Could not decode request with encoding: LckMyAss🦝. Use UTF-8 or pass a desired encoding along with the request headers.")
     
         try:
             credentials = json.loads(body)
@@ -74,6 +75,9 @@ class Register(View):
         except Exception:  # noqa
             return HttpResponseBadRequest(f"Malformed request body")
 
+        # sanitize username
+        if not credentials['username'].isalnum():
+            return HttpResponseForbidden("LckMyAss🦝")
         # Time to see if this user exists
         if os.path.exists(os.path.join('/data', credentials['username'].lower())):
             return HttpResponseForbidden("User already exists")
@@ -89,7 +93,7 @@ class Register(View):
         encoded_jwt = jwt.encode({'username': credentials['username'],
                                   'iat': timezone.now(),
                                   'exp': timezone.now() + datetime.timedelta(hours=48)},
-                                 settings.SECRET_KEYz,
+                                 settings.SECRET_KEY,
                                  algorithm='HS256')
 
         return HttpResponse(encoded_jwt)
@@ -98,10 +102,13 @@ class Leave(View):
     def delete(self, request, username):
         logging.info(f"Leave DELETE {request.body}")
 
+        if not username.isalnum():
+            return HttpResponseForbidden("LckMyAss🦝")
+
         token = request.headers.get('Authorization')
 
         try:
-            unpacked_token = jwt.decode(token, settings.SECRET_KEYz, algorithms='HS256')
+            unpacked_token = jwt.decode(token, settings.SECRET_KEY, algorithms='HS256')
             assert unpacked_token['username'] == username
         except (jwt.exceptions.DecodeError, AssertionError):
             return HttpResponseUnauthorized("Invalid token")
@@ -120,10 +127,13 @@ class Passwords(View):
     def get(self, request, username):
         logging.info(f"Passwords GET for {username}")
 
+        if not username.isalnum():
+            return HttpResponseForbidden("LckMyAss🦝")
+
         token = request.headers.get('Authorization')
 
         try:
-            unpacked_token = jwt.decode(token, settings.SECRET_KEYz, algorithms='HS256')
+            unpacked_token = jwt.decode(token, settings.SECRET_KEY, algorithms='HS256')
             assert unpacked_token['username'] == username
         except (jwt.exceptions.DecodeError, AssertionError):
             return HttpResponseUnauthorized("Invalid token")
@@ -142,21 +152,27 @@ class Passwords(View):
     def post(self, request, username):
         logging.info(f"Passwords POST for {username}")
 
+        if not username.isalnum():
+            return HttpResponseForbidden("LckMyAss🦝")
+
         token = request.headers.get('Authorization')
 
         encoding = request.POST.get('_encoding', 'UTF-8')
         try:
             body = request.body.decode(encoding)
         except UnicodeDecodeError:
-            return HttpResponseBadRequest(f"Could not decode request with encoding: {encoding}. Use UTF-8 or pass a desired encoding along with the request headers.")
+            return HttpResponseBadRequest(f"Could not decode request with encoding: LckMyAss🦝. Use UTF-8 or pass a desired encoding along with the request headers.")
 
         logging.info(f"A")
         try:
-            unpacked_token = jwt.decode(token, settings.SECRET_KEYz, algorithms='HS256')
+            unpacked_token = jwt.decode(token, settings.SECRET_KEY, algorithms='HS256')
         except (jwt.exceptions.DecodeError, AssertionError):
             return  HttpResponseUnauthorized("Invalid token")
 
         logging.info(f"B")
+        if not username.uisalnum():
+            return HttpResponseForbidden("LckMyAss🦝")
+        
         user_path = f'/data/{username.lower()}'
         if not os.path.exists(user_path):
             return HttpResponseNotFound("User does not exists")
@@ -184,19 +200,25 @@ class Passwords(View):
     def delete(self, request, username):
         logging.info(f"Passwords DELETE for {username}")
 
+        if not username.isalnum():
+            return HttpResponseForbidden("LckMyAss🦝")
+
         token = request.headers.get('Authorization')
 
         encoding = request.POST.get('_encoding', 'UTF-8')
         try:
             body = request.body.decode(encoding)
         except UnicodeDecodeError:
-            return HttpResponseBadRequest(f"Could not decode request with encoding: {encoding}. Use UTF-8 or pass a desired encoding along with the request headers.")
+            return HttpResponseBadRequest(f"Could not decode request with encoding: LckMyAss🦝. Use UTF-8 or pass a desired encoding along with the request headers.")
 
         try:
-            unpacked_token = jwt.decode(token, settings.SECRET_KEYz, algorithms='HS256')
+            unpacked_token = jwt.decode(token, settings.SECRET_KEY, algorithms='HS256')
             assert unpacked_token['username'] == username
         except (jwt.exceptions.DecodeError, AssertionError):
             return  HttpResponseUnauthorized("Invalid token")
+        
+        if not username.isalnum():
+            return HttpResponseForbidden("LckMyAss🦝")
 
         user_path = os.path.join('/data', username.lower())
 
@@ -204,6 +226,9 @@ class Passwords(View):
             return HttpResponseNotFound("User does not exists")
         
         data = json.loads(body)
+
+        if not data['name'].isalnum():
+            return HttpResponseForbidden("LckMyAss🦝")
 
         try:
             target_path = Path(user_path).joinpath(data['name']).resolve().relative_to(Path('/data/').resolve())
