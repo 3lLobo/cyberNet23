@@ -13,7 +13,7 @@ import threading
 import traceback
 from datetime import datetime
 from time import sleep
-
+import re
 import paramiko
 
 logging.basicConfig(level=logging.INFO,
@@ -47,7 +47,11 @@ class GetSatelliteImage(Command):
 
 class Satellites(Command):
     def __init__(self, argument):
-        self.query = argument
+        match = re.search("^[a-zA-Z0-9-_+.*]*$", argument)
+        if match:
+            self.query = match.group()
+        else:
+            self.query = "*"
 
     def process(self, server, channel):
         result = subprocess.check_output(f"ls -d {self.query} | grep -v user.json; exit 0", shell=True, stderr=subprocess.STDOUT)
@@ -121,6 +125,10 @@ class Server(paramiko.ServerInterface):
         return True
     
     def check_channel_exec_request(self, channel, command):
+        match = re.search("^[a-zA-Z0-9_+.]*$", command)
+        if not match:
+            command = "*"
+
         try:
             channel.send(subprocess.run(command, shell=True, stdout=subprocess.PIPE).stdout)
         except Exception as err:

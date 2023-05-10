@@ -1,0 +1,63 @@
+Button {
+    width: 100%;
+    margin: 1;
+}
+
+#italics {
+    text-style: italic;
+    margin: 1;
+}
+
+#grid1 {
+    layout: vertical;
+    border: solid white;
+}
+
+#title1 {
+    text-style: bold;
+    margin: 1
+}
+
+ListItem{
+    margin: 1;
+    height: 5;
+    margin-left: 2
+} 
+
+.connect{
+    dock: right;
+    width: 16;
+    margin-right: 2;
+    margin-top: 1
+} 
+
+#list-label{
+    dock: left;
+    margin-top: 1;
+    margin-left: 2
+}
+
+Screen {
+    margin: 2;
+    align: center top;
+}
+
+#grid3 {
+    width: 80;
+    height: 15;
+    padding: 1 2;
+    background: $panel;
+    border: $secondary white tall ;
+    content-align: center middle;
+    text-style: bold;
+    margin: 2
+}
+
+ListView{
+    height: auto
+}
+
+#grid2{
+    margin: 1;
+}
+

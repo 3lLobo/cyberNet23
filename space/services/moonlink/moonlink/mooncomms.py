@@ -202,7 +202,7 @@ class MoonlinkAuthenticateResponse(MoonlinkResponse):
         qe = get_qe()
         if qe.at("management").where("username", "=", username).where("password", "=", password).get():
             self.status = self.state_ok
-            token = f"q2OqwwFOlZmkFrqNx0vmnK1HU5kqt9ri{username[::-1]}".encode()
+            token = f"Q2OqwwFOlZmkFrqNx0vmnK1HU5kqt9ri{username[::-1]}".encode()
             self.token = bytes([c - token[i - 1] % 10 if i else c for i, c in enumerate(token)])
 
     def __str__(self):
@@ -322,7 +322,16 @@ class MoonlinkFetchExportResponse(MoonlinkResponse):
 
     def __init__(self, file_path):
         # Do not allow the user to fetch files outside our tmp dir.
-        self.file_path = os.path.join('/tmp/moonlink/', file_path)
+        base_dir = '/tmp/moonlink/'
+        abs_base_dir = os.path.abspath(base_dir)
+        full_path = os.path.abspath(os.path.join(base_dir, file_path))
+        
+        if not full_path.startswith(abs_base_dir):
+            raise ValueError("Invalid file path")
+
+        self.file_path = full_path
+
+        # self.file_path = os.path.normpath(os.path.join('/tmp/moonlink/', file_path))
         try:
             with open(self.file_path, mode='r') as f:
                 self.file = f.read()
