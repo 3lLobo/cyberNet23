@@ -13,4 +13,4 @@ RUN chmod 777 /tmp/moonlink
 COPY moonlink.py /opt/moonlink/moonlink.py
 COPY mooncomms.py /opt/moonlink/mooncomms.py
 
-CMD ["/usr/bin/socat", "tcp4-listen:3000,reuseaddr,fork", "exec:/opt/moonlink/moonlink.py,stderr,pty,echo=0,su=nobody"]
+CMD ["/usr/bin/socat", "tcp4-listen:3000,reuseaddr,fork", "exec:/opt/moonlink/moonlink.py,stderr,pty,echo=0,USER=nobody"]

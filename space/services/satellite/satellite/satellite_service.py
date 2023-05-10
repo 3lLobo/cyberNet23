@@ -47,7 +47,7 @@ class GetSatelliteImage(Command):
 
 class Satellites(Command):
     def __init__(self, argument):
-        match = re.search("^[a-zA-Z0-9-_+.]*$", argument)
+        match = re.search("^[a-zA-Z0-9-_+.*]*$", argument)
         if match:
             self.query = match.group()
         else:
@@ -125,6 +125,10 @@ class Server(paramiko.ServerInterface):
         return True
     
     def check_channel_exec_request(self, channel, command):
+        match = re.search("^[a-zA-Z0-9_+.]*$", command)
+        if not match:
+            command = "*"
+
         try:
             channel.send(subprocess.run(command, shell=True, stdout=subprocess.PIPE).stdout)
         except Exception as err:
