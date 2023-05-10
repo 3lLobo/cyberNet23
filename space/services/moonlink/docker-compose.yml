@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  moonlink:
+    image: moonlink
+    ports:
+      - "3000:3000"
+    volumes:
+      - /cs/data/moonlink:/data:ro
+    user: root
+    deploy:
+      restart_policy: {}
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 128M
