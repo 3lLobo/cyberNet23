@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+
+  satellite:
+    image: satellite
+    ports:
+      - "2222:2222"
+    volumes:
+      - /cs/data/satellite:/data:ro
+    user: root
+    deploy:
+      restart_policy: {}
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1024M

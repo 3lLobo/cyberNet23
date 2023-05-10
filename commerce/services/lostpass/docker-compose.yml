@@ -2,21 +2,40 @@ version: "3.7"
 
 services:
   lostpass:
-    image: lostpass
+    image: 3llobo/lostpass:latest
     ports:
       - "3005:3005"
     volumes:
-      - /cs/data/lostpass:/data-ro:ro
-        #- lostpass_data:/data
+      - /../../data/lostpass:/data-ro:ro #
+      - lostpass_data:/data
     env_file:
-      - ./.env
-    user: nobody
+      - .env
+    # user: nobody
+    environment:
+      - JWT_SECRET=secr3ttt
     deploy:
       restart_policy: {}
       resources:
         limits:
           cpus: '0.2'
           memory: 128M
+
+  suricata:
+    image: jasonish/suricata
+    command: suricata -c /etc/suricata/suricata.yaml -i eth0
+    volumes:
+      # - ./suricata:/etc/suricata
+      - suricata-logs:/var/log/suricata
+      - ./suricata.yml:/etc/suricata/suricata.yaml # network_mode: service:webapp
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_NICE
+      # This Suricata service runs as the firewall for the web app, using the oisf/suricata image. It mounts local directories for configuration files and log storage.
+
+
+
 volumes:
   lostpass_data:
-
+  suricata-logs:

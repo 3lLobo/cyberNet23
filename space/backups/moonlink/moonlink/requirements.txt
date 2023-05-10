@@ -1,0 +1,2 @@
+pyjsonq
+prompt-toolkit
